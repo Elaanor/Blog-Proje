@@ -3,12 +3,13 @@ const express = require("express")
 const mongoose = require("mongoose")
 const exphbs = require("express-handlebars")
 const {PORT, MONGO_URL} = process.env
+const router = require("./routes/post")
 
 
 
 
 const app = express()
-
+app.use(router)
 
 
 const hbs = exphbs.create({
