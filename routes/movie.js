@@ -13,13 +13,27 @@ router.get('/', async (req,res) =>{
 })
 
 router.post('/add', async (req,res) =>{
-  
-   
-        console.log(req.body)  
-        const {title,director,url} = req.body;
-        const add = await movieController.add(title,director,url);
-      
-   
+
+          try {
+            const {title,director,url} = req.body
+            const add = await movieController.add(title,director,url)
+            if (add) {
+                res.status(200).json({
+                    message: "Film başarıyla eklendi",
+                    data: add
+                })
+            } else {
+                res.status(450).json({
+                    message: "Film eklenemedi, false"
+                })
+            }
+            
+          } catch (error) {
+              console.log(error.message)
+              res.status(451).json({
+                  message: "Film eklenemedi, exception"
+              })
+          }
     
 })
 
