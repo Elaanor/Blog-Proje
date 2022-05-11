@@ -2,7 +2,7 @@ const {Schema, model}= require('mongoose')
 
 
 const schema= new Schema({
-    movieName: {
+    title: {
         type: String,
         required: true
     },
@@ -10,7 +10,7 @@ const schema= new Schema({
         type: String,
         required: true
     },
-    moviePoster:{
+    url:{
         type: String,
         required: true
     }
