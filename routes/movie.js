@@ -37,5 +37,27 @@ router.post('/add', async (req,res) =>{
     
 })
 
+router.delete('/delete', async (req, res) => {
+    try {
+        const {id} = req.body
+            const add = await movieController.delete(id)
+            if (add) {
+                res.status(200).json({
+                    message: "Film başarıyla silindi",
+                    data: add
+                })
+            } else {
+                res.status(450).json({
+                    message: "Film silinemedi, false"
+                })
+            }
+    } catch (error) {
+        console.log(error.message)
+        res.status(451).json({
+            message: "Film silinemedi, exception"
+        })
+    }
+})
+
 
 module.exports = router
