@@ -70,9 +70,9 @@ function deleteFilm (id) {
 
 function updateFilm (id) {
     $.ajax({
-        url: `http://localhost:3000/update`,
+        url: `http://localhost:3000/getById`,
         dataType: 'json',
-        type: 'put',
+        type: 'post',
         contentType: 'application/json',
         data: JSON.stringify(
             {
@@ -81,7 +81,29 @@ function updateFilm (id) {
         ),
         processData: false,
         success: function (data, textStatus, jQxhr) {
-            console.log('success', data)
+            console.log('get data by id='.concat(id), data.movieInfo)
+            let {_id, title, director, url} = data.movieInfo
+            $('#upt_title').val(title); $('#upt_director').val(director); $('#upt_url').val(url); $('#upt_id').val(_id)
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            console.log('error @ get data by id='.concat(id), errorThrown)
+        }
+    })
+}
+
+$('#uptButton').on('click', function() {
+    $.ajax({
+        url: `http://localhost:3000/update`,
+        dataType: 'json',
+        type: 'put',
+        contentType: 'application/json',
+        data: JSON.stringify(
+            {
+                id: $('#upt_id').val(), title: $('#upt_title').val(), director: $('#upt_director').val(), url: $('#upt_url').val()
+            }
+        ),
+        processData: false,
+        success: function (data, textStatus, jQxhr) {
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -94,7 +116,13 @@ function updateFilm (id) {
             }, 1000)
         },
         error: function (jqXhr, textStatus, errorThrown) {
-            console.log('error', errorThrown)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: jqXhr.responseJSON.message,
+                showConfirmButton: false,
+                timer: 1000
+              })
         }
     })
-}
+})

@@ -21,6 +21,11 @@ class PostController {
         return movies
     }
 
+    async getById(id){
+        const movie = await Movie.findById(id).lean()
+        return movie
+    }
+
     async delete(id){
         try {
             if (id == 'all') {
@@ -29,6 +34,18 @@ class PostController {
             }
             const result = await Movie.findByIdAndDelete(id)
             if (result == null) {
+                return false
+            }
+            return true
+        } catch (error) {
+            return false
+        }
+    }
+
+    async update(id, title, director, url) {
+        try {
+            const result = await Movie.findByIdAndUpdate(id, {title,director,url})
+            if (!result) {
                 return false
             }
             return true

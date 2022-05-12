@@ -59,9 +59,45 @@ router.delete('/delete', async (req, res) => {
 
 
 router.put('/update', async (req, res) => {
+    const {id, title, director, url} = req.body
+    try {
+        const result = await movieController.update(id,title,director,url)
+        if (!result) {
+            return res.status(450).json({
+                message: 'Film güncellenirken hata!'
+            })
+        }
+        return res.status(200).json({
+            message: 'Film güncellendi'
+        })
+    } catch (error) {
+        res.status(450).json({
+            message: 'Film güncellenirken hata!'
+        })
+    }
+    
+})
+
+router.post('/getById', async (req, res) => {
     const {id} = req.body
-    console.log(id)
-    res.end()
+    try {
+        const result = await movieController.getById(id)
+        if (!result) {
+            return res.status(450).json({
+                message: 'Film bilgisi bulunamadı',
+                errorMessage: error.message
+            })
+        }
+        res.status(200).json({
+            message: 'Film bilgisi bulundu',
+            movieInfo: result
+        })
+    } catch (error) {
+        res.status(450).json({
+            message: 'Film bilgisi getirilirken hata',
+            errorMessage: error.message
+        })
+    }
 })
 
 
