@@ -24,39 +24,44 @@ router.post('/add', async (req,res) =>{
                 })
             } else {
                 res.status(450).json({
-                    message: "Film eklenemedi, false"
+                    message: "Film eklenemedi"
                 })
             }
             
           } catch (error) {
               console.log(error.message)
               res.status(451).json({
-                  message: "Film eklenemedi, exception"
+                  message: "Film eklenemedi"
               })
           }
     
 })
 
 router.delete('/delete', async (req, res) => {
+    const {id} = req.body
     try {
-        const {id} = req.body
-            const add = await movieController.delete(id)
-            if (add) {
-                res.status(200).json({
-                    message: "Film başarıyla silindi",
-                    data: add
-                })
-            } else {
-                res.status(450).json({
-                    message: "Film silinemedi, false"
-                })
-            }
+        const result = await movieController.delete(id)
+        if (!result) {
+            res.status(450).json({
+                message: 'Film silinirken hata'
+            })
+        }
+        res.status(200).json({
+            message: 'Film silindi'
+        })
     } catch (error) {
-        console.log(error.message)
-        res.status(451).json({
-            message: "Film silinemedi, exception"
+        res.status(450).json({
+            message: 'Film silinirken hata',
+            errorMessage: error.message
         })
     }
+})
+
+
+router.put('/update', async (req, res) => {
+    const {id} = req.body
+    console.log(id)
+    res.end()
 })
 
 

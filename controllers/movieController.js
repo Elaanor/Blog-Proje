@@ -23,20 +23,17 @@ class PostController {
 
     async delete(id){
         try {
-            const result = await Movie.findByIdAndDelete(id)
-            if (result != null) {
-                res.status(200).json({
-                    message: 'Film silindi'
-                })
-            } else {
-                res.status(450).json({
-                    message: 'Film silinirken hata, false'
-                })
+            if (id == 'all') {
+                await Movie.remove({})
+                return true
             }
+            const result = await Movie.findByIdAndDelete(id)
+            if (result == null) {
+                return false
+            }
+            return true
         } catch (error) {
-            res.status(450).json({
-                message: 'Film silinirken hata, exception'
-            })
+            return false
         }
     }
 }
