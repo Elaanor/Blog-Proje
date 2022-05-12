@@ -29,7 +29,7 @@ class PostController {
     async delete(id){
         try {
             if (id == 'all') {
-                await Movie.remove({})
+                await Movie.deleteOne({})
                 return true
             }
             const result = await Movie.findByIdAndDelete(id)

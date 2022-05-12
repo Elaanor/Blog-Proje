@@ -47,7 +47,7 @@ router.delete('/delete', async (req, res) => {
             })
         }
         res.status(200).json({
-            message: 'Film silindi'
+            message: (id === 'all') ? 'Tüm filmler silindi' : 'Film silindi'
         })
     } catch (error) {
         res.status(450).json({
